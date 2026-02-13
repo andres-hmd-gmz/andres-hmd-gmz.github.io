@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Proyectos — Tu Nombre</title>
+  <meta name="description" content="Proyectos y trabajos de Tu Nombre." />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="/">Tu Nombre</a>
+    <nav class="nav">
+      <a href="/">Inicio</a>
+      <a class="active" href="projects.html">Proyectos</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <h1>Proyectos</h1>
+    <p class="lead">Una selección breve (calidad > cantidad).</p>
+
+    <section class="grid">
+      <article class="card">
+        <h2>Proyecto 1</h2>
+        <p>Qué problema resolviste, cómo lo hiciste, y el impacto/resultado.</p>
+        <p class="tags">
+          <span>Python</span><span>ML</span><span>Dashboards</span>
+        </p>
+        <p>
+          <a href="https://github.com/TU-USUARIO/REPO" target="_blank" rel="noreferrer">Repositorio</a>
+          ·
+          <a href="#" target="_blank" rel="noreferrer">Demo / PDF</a>
+        </p>
+      </article>
+
+      <article class="card">
+        <h2>Proyecto 2</h2>
+        <p>Descripción corta, orientada a resultados.</p>
+        <p class="tags">
+          <span>R</span><span>Econometría</span>
+        </p>
+        <p>
+          <a href="#" target="_blank" rel="noreferrer">Enlace</a>
+        </p>
+      </article>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <small>© <span id="year"></span> Tu Nombre</small>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>

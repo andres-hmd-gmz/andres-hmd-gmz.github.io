@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Proyectos y Publicaciones — Andrés Ahumada Gómez</title>
+  <meta name="description" content="Proyectos académicos y trabajos docentes de Andrés Ahumada Gómez." />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <header class="site-header">
+    <a class="brand" href="/">Andrés Ahumada Gómez</a>
+    <nav class="nav">
+      <a href="/">Inicio</a>
+      <a class="active" href="projects.html">Proyectos</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <h1>Proyectos y Publicaciones</h1>
+    <p class="lead">
+      Selección de trabajos académicos y materiales docentes.
+    </p>
+
+    <section class="grid">
+
+      <article class="card">
+        <h2>Material docente en R</h2>
+        <p>
+          Desarrollo de recursos para la enseñanza de programación y análisis de datos
+          en grados universitarios.
+        </p>
+        <p>
+          <a href="https://github.com/andres-hmd-gmz" target="_blank">
+            Ver repositorios en GitHub
+          </a>
+        </p>
+      </article>
+
+      <article class="card">
+        <h2>Investigación aplicada</h2>
+        <p>
+          Proyectos centrados en análisis cuantitativo y aplicación práctica
+          en entornos académicos y profesionales.
+        </p>
+      </article>
+
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <small>© <span id="year"></span> Andrés Ahumada Gómez</small>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
+
+</body>
+</html>

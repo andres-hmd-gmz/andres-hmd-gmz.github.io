@@ -224,6 +224,6 @@ h3{
 
 @media (max-width: 820px){
   .full-width-image{
-    height: auto;
+    height: 55vh;   /* sigue borde a borde, pero no ocupa TODO */
   }
 }

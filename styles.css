@@ -229,3 +229,19 @@ h3{
     width: 100vw;
   }
 }
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 8px; /* espacio entre imagen y texto */
+  font-weight: bold;
+  text-decoration: none;
+  color: inherit;
+}
+
+.brand-logo {
+  width: 28px;       /* tamaño pequeño */
+  height: 28px;
+  object-fit: contain;
+  border-radius: 50%; /* opcional: circular */
+}

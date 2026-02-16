@@ -88,7 +88,13 @@ h3{
   margin: 0 0 18px;
 }
 
-.accent{ color: var(--accent); }
+.accent{
+  color: var(--accent);
+  white-space: nowrap;
+}
+@media (max-width: 420px){
+  h1 .accent{ white-space: normal; }
+}
 
 /* Hero */
 .hero{

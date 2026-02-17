@@ -117,7 +117,7 @@ h3{
   overflow: hidden;
   border: 0px solid var(--border);
   box-shadow: var(--bg);
-  background: var(--panel);
+  background: var(--bg);
   object-fit: contain;
   line-height: 0;
 }

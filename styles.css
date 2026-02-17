@@ -112,10 +112,10 @@ h3{
   justify-self: end;
   width: auto; /*100%*/
   max-width: 420px;
-  height: auto; /*min(460px, 60vh);   /* <- clave: evita que sea gigante */
-  border-radius: 2px;
+  height: min(460px, 60vh);   /* <- clave: evita que sea gigante */
+  border-radius: 200px;
   overflow: hidden;
-  border: 1px solid var(--border);
+  border: 0px solid var(--border);
   box-shadow: var(--shadow);
   background: var(--panel);
 }

@@ -322,3 +322,9 @@ h3{
   height: auto;
   border-radius: 8px;
 }
+
+@media (max-width: 768px) {
+  .sobre-mi-content {
+    flex-direction: column;
+  }
+}

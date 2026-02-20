@@ -94,10 +94,12 @@ a:hover{
 
 /* Nav en general */
 .nav{
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;      /* permite salto de línea */
-  gap: 10px;
+  display:flex;
+  align-items:center;
+  flex-wrap:wrap;
+  gap:10px;
+  justify-content:flex-end;   /* importante */
+  text-align:right;
 }
 
 /* Grupo de idiomas */
@@ -111,10 +113,12 @@ a:hover{
   .nav-sep{ display: none; }
 
   .nav .lang{
-    flex-basis: 100%;   /* ocupa toda la fila => baja */
-    justify-content: flex-end; /* o flex-start, como prefieras */
-    margin-top: 4px;
+    flex-basis:100%;
+    display:flex;
+    justify-content:flex-end;   /* clave */
+    gap:10px;
   }
+
 }
 
 /* Typography */

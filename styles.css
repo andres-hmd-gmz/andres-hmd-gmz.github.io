@@ -307,7 +307,9 @@ h3{
   border-radius: var(--radius);
   padding: 16px;
   box-shadow: var(--shadow);
-  margin-bottom: 2rem;
+}
+.card + .card {
+  margin-top: 2rem;
 }
 
 .card ul{

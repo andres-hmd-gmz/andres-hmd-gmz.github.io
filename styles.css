@@ -465,3 +465,89 @@ h3{
 .wordpress    { background: #f7f8fa; }
 .cunef        { background: #f7f8fa; } 
 .arxiv {background: #f7f8fa ;}
+
+/* Layout general */
+.docs-component {
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  gap: 16px;
+  align-items: start;
+  margin: 20px 0;
+}
+
+/* Lista */
+.docs-list {
+  position: sticky;
+  top: 16px;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 12px;
+  background: #ffffff;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+}
+
+.docs-title {
+  margin: 0 0 12px 0;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.doc-item {
+  width: 100%;
+  text-align: left;
+  border: 1px solid #e5e7eb;
+  background: #f9fafb;
+  padding: 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-bottom: 8px;
+  font-size: 14px;
+  transition: background 0.2s ease, box-shadow 0.2s ease, transform 0.1s ease;
+}
+
+.doc-item:hover {
+  background: #f3f4f6;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+  transform: translateY(-1px);
+}
+
+.doc-item.is-active {
+  background: #111827;
+  color: #ffffff;
+  border-color: #111827;
+}
+
+/* Visor */
+.docs-viewer {
+  min-width: 0;
+}
+
+.viewer-frame {
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #ffffff;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+}
+
+.viewer-frame iframe {
+  display: block;
+  width: 100%;
+  height: min(80vh, 900px);
+  border: 0;
+}
+
+/* Responsive: móvil */
+@media (max-width: 900px) {
+  .docs-component {
+    grid-template-columns: 1fr;
+  }
+
+  .docs-list {
+    position: static;
+  }
+
+  .viewer-frame iframe {
+    height: 70vh;
+  }
+}

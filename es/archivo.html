@@ -51,8 +51,8 @@
         SBC
       </button>
 
-      <button class="doc-item" data-src="/docs/Reglamento.pdf" type="button">
-        Reglamento
+      <button class="doc-item" data-src="/docs/Curriculum.pdf" type="button">
+        Curriculum
       </button>
     </aside>
 
@@ -78,6 +78,28 @@
   <script>
     document.getElementById("year").textContent = new Date();
   </script>
+   
+   <script>
+  (function () {
+    const root = document.getElementById('docsComponent');
+    if (!root) return;
+
+    const frame = root.querySelector('#docsFrame');
+    const items = root.querySelectorAll('.doc-item');
+
+    items.forEach(button => {
+      button.addEventListener('click', function () {
+        const src = this.dataset.src;
+        if (!src) return;
+
+        frame.src = src;
+
+        items.forEach(btn => btn.classList.remove('is-active'));
+        this.classList.add('is-active');
+      });
+    });
+  })();
+</script>
 </body>
 </html>
 

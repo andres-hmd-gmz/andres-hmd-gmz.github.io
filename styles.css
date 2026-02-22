@@ -512,9 +512,9 @@ h3{
 }
 
 .doc-item.is-active {
-  background: #111827;
-  color: #9C1F14;
-  border-color: #111827;
+  background: #9C1F14;
+  color: #ffffff;
+  border-color: #9C1F14;
 }
 
 /* Visor */

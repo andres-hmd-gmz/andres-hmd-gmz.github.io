@@ -596,3 +596,36 @@ h3{
     width: 100%;
   }
 }
+
+/* MÓVIL: el visor ocupa todo el ancho de la pantalla */
+@media (max-width: 900px) {
+  .docs-component--fullbleed {
+    width: 100vw;
+    margin-left: calc(50% - 50vw);
+    margin-right: calc(50% - 50vw);
+  }
+
+  /* reduce el “aire” alrededor */
+  .docs-component--fullbleed .docs-list {
+    border-radius: 12px;
+    margin-bottom: 12px;
+  }
+
+  .docs-component--fullbleed .viewer-frame {
+    border-radius: 0;          /* opcional: sensación de visor “app” */
+    border-left: 0;
+    border-right: 0;
+  }
+}
+
+@media (max-width: 900px) {
+  .viewer-frame {
+    overflow: visible;             /* ya lo tienes */
+  }
+
+  .viewer-frame iframe {
+    height: 85vh;                  /* más alto = más usable */
+    -webkit-overflow-scrolling: touch;
+    touch-action: pan-y pinch-zoom; /* permitir scroll + pinch */
+  }
+}

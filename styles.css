@@ -567,3 +567,29 @@ h3{
   }
 }
 
+/* DEFAULT (desktop): aumentar tamaño visual del contenido */
+.viewer-frame {
+  --iframe-scale: 1.15;   /* zoom IN en ordenador */
+  overflow: hidden;
+}
+
+.viewer-frame iframe {
+  transform: scale(var(--iframe-scale));
+  transform-origin: 0 0;
+  width: calc(100% / var(--iframe-scale));
+  height: calc(min(80vh, 900px) / var(--iframe-scale));
+  border: 0;
+  display: block;
+}
+
+/* MÓVIL: reducir tamaño visual del contenido */
+@media (max-width: 900px) {
+  .viewer-frame {
+    --iframe-scale: 0.85; /* zoom OUT en móvil */
+  }
+
+  .viewer-frame iframe {
+    height: calc(70vh / var(--iframe-scale));
+  }
+}
+

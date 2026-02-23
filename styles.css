@@ -574,26 +574,25 @@ h3{
 
 }
 
-/* Correo / oficina: por defecto (móvil-first) 1 columna */
-.section.contact-grid{
-  display: grid;
-  grid-template-columns: 1fr;
+/* Correo / Oficina: desktop por defecto en 2 columnas */
+main .section.contact-grid{
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
   gap: 1.25rem;
   align-items: start;
 }
 
-/* En pantallas medianas/grandes: 2 columnas */
-@media (min-width: 900px){
-  .section.contact-grid{
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+/* Móvil: 1 columna */
+@media (max-width: 700px){
+  main .section.contact-grid{
+    grid-template-columns: 1fr !important;
   }
 }
 
-.section.contact-grid .contact-item h2{
-  margin-bottom: .5rem;
+main .section.contact-grid .contact-item h2{
+  margin: 0 0 .5rem 0;
 }
 
-.section.contact-grid .contact-item p{
+main .section.contact-grid .contact-item p{
   margin: 0;
-}
 }

@@ -538,17 +538,6 @@ h3{
 }
 
 
-/* Responsive: móvil */
-@media (max-width: 900px) {
-  .docs-component {
-    grid-template-columns: 1fr;
-  }
-
-  .docs-list {
-    position: static;
-  }
-}
-
 /* Visor: por defecto SIN transforms */
 .viewer-frame {
   border: 1px solid #e5e7eb;
@@ -565,55 +554,9 @@ h3{
   border: 0;
 }
 
-/* Móvil: prioriza usabilidad táctil */
 @media (max-width: 900px) {
-  .viewer-frame {
-    overflow: visible; /* evita recortes raros de controles/gestos */
-  }
-
-  .viewer-frame iframe {
-    height: 80vh; /* o 75vh si prefieres */
-    /* IMPORTANTÍSIMO: nada de transform en móvil */
-    transform: none;
-    width: 100%;
+  .docs-viewer {
+    display: none;
   }
 }
 
-/* MÓVIL: el visor ocupa todo el ancho de la pantalla */
-@media (max-width: 900px) {
-  .docs-component--fullbleed {
-    width: 100vw;
-    margin-left: calc(50% - 50vw);
-    margin-right: calc(50% - 50vw);
-  }
-
-  /* reduce el “aire” alrededor */
-  .docs-component--fullbleed .docs-list {
-    border-radius: 12px;
-    margin-bottom: 12px;
-  }
-
-  .docs-component--fullbleed .viewer-frame {
-    border-radius: 0;          /* opcional: sensación de visor “app” */
-    border-left: 0;
-    border-right: 0;
-  }
-}
-
-@media (max-width: 900px) {
-  .viewer-frame {
-    overflow: visible;             /* ya lo tienes */
-  }
-
-  .viewer-frame iframe {
-    height: 85vh;                  /* más alto = más usable */
-    -webkit-overflow-scrolling: touch;
-    touch-action: pan-y pinch-zoom; /* permitir scroll + pinch */
-  }
-}
-
-.pdf-open-mobile { display: none; margin: 12px 0 0; }
-
-@media (max-width: 900px) {
-  .pdf-open-mobile { display: block; }
-}

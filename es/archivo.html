@@ -62,6 +62,11 @@
           src="/docs/SBC.pdf#view=FitH"
           title="Visor de documento">
         </iframe>
+         <p class="pdf-open-mobile">
+  <a id="openPdf" class="button button-ghost" href="/docs/SBC.pdf" target="_blank" rel="noopener">
+    Abrir en pantalla completa
+  </a>
+</p>
       </div>
     </div>
   </section>
@@ -98,6 +103,23 @@
       });
     });
   })();
+
+const openLink = root.querySelector('#openPdf');
+
+items.forEach(button => {
+  button.addEventListener('click', function () {
+    const src = this.dataset.src;
+    if (!src) return;
+
+    frame.src = src;
+
+    // actualiza el link de "abrir"
+    if (openLink) openLink.href = src.split('#')[0];
+
+    items.forEach(btn => btn.classList.remove('is-active'));
+    this.classList.add('is-active');
+  });
+});
 </script>
 </body>
 </html>

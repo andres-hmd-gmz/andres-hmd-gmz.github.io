@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Primera entrada: una esfera, una métrica y una idea — Andrés Ahumada Gómez</title>
+  <link rel="stylesheet" href="/styles.css" />
+
+  <!-- MathJax (LaTeX) -->
+  <script>
+    window.MathJax = {
+      tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] },
+      options: { skipHtmlTags: ['script','noscript','style','textarea','pre','code'] }
+    };
+  </script>
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+</head>
+
+<body>
+  <header class="site-header">
+    <a class="brand" href="/es/">
+      <img src="/imgs/andres-esf2.png" alt="Logo" class="brand-logo">
+      Andrés Ahumada Gómez
+    </a>
+    <nav class="nav">
+      <a href="/es/">Inicio</a>
+      <a href="/es/blog/">Blog</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <article class="card">
+      <h1>Primera entrada: una esfera, una métrica y una idea</h1>
+      <p class="lead">02 de marzo de 2026 · Tema: Geometría</p>
+
+      <p>
+        Esta es una entrada de prueba para verificar que MathJax renderiza bien LaTeX y que el blog
+        puede clasificarse por tema y por mes–año.
+      </p>
+
+      <h2>La esfera como ejemplo</h2>
+
+      <p>
+        Considera la esfera unitaria $S^2 \subset \mathbb{R}^3$ con la métrica inducida por el producto punto.
+        En este caso, la curvatura seccional es constante:
+      </p>
+
+      \[
+        K \equiv 1.
+      \]
+
+      <p>
+        Además, la distancia geodésica entre $p,q \in S^2$ se puede escribir como
+      </p>
+
+      \[
+        d(p,q) = \arccos(\langle p,q\rangle).
+      \]
+
+      <h2>Una nota sobre notación</h2>
+
+      <p>
+        Usaré $(M,g)$ para una variedad riemanniana, $\nabla$ para la conexión de Levi-Civita
+        y $\mathrm{Ric}$ para la curvatura de Ricci.
+      </p>
+
+      <hr />
+      <p style="color:var(--muted); margin-bottom:0;">
+        Siguiente paso: añadir imágenes y referencias.
+      </p>
+    </article>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <small>© <span id="year"></span> Andrés Ahumada Gómez</small>
+    </div>
+  </footer>
+  <script>document.getElementById("year").textContent = new Date().getFullYear();</script>
+</body>
+</html>

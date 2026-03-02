@@ -2,46 +2,67 @@
    Andrés Ahumada Gómez — Blog
    ========================= -->
 
-
 <!doctype html>
 <html lang="es">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Blog — Andrés Ahumada Gómez</title>
+  <title>Blog — Sitio matemático de Andrés</title>
+  <meta name="description" content="Blog de Andrés Ahumada Gómez." />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=CMU+Serif&display=swap">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/cascadia-code/index.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/jetbrains-mono/index.css">
   <link rel="stylesheet" href="/styles.css" />
+
+  <link rel="alternate" hreflang="en" href="https://andres-ahumada-gomez.github.io/en/" />
+  <link rel="alternate" hreflang="es" href="https://andres-ahumada-gomez.github.io/es/" />
+  <link rel="alternate" hreflang="x-default" href="https://andres-ahumada-gomez.github.io/" />
+  <link rel="icon" type="image/png" href="/imgs/esf.png">
 </head>
+
 <body>
   <header class="site-header">
     <a class="brand" href="/es/">
       <img src="/imgs/andres-esf2.png" alt="Logo" class="brand-logo">
       Andrés Ahumada Gómez
     </a>
+
     <nav class="nav">
-      <a href="/es/">Inicio</a>
-      <a class="active" href="/es/blog/">Blog</a>
+      <a href="/es/#sobre-mi">Sobre mí</a>
+      <a href="/es/#contacto">Contacto</a>
+
+      <span class="nav-sep" aria-hidden="true">|</span>
+
+      <div class="lang">
+        <a href="/en/">EN</a>
+        <a class="active" href="/es/">ES</a>
+      </div>
     </nav>
   </header>
 
   <main class="container">
+    <h1>Blog</h1>
+    <p class="lead">Entradas clasificadas por tema y por año.</p>
+
     <div class="blog-layout">
       <!-- Sidebar -->
       <aside class="blog-sidebar">
-        <div class="blog-box">
-          <h3 class="blog-box-title">TOPICS</h3>
+        <div class="card">
+          <h3 class="docs-title">TOPICS</h3>
           <div id="topicsList" class="blog-links"></div>
         </div>
 
-        <div class="blog-box">
-          <h3 class="blog-box-title">YEAR</h3>
+        <div class="card" style="margin-top:16px;">
+          <h3 class="docs-title">YEAR</h3>
           <div id="yearsList" class="blog-links"></div>
         </div>
       </aside>
 
-      <!-- Content -->
+      <!-- Main list -->
       <section class="blog-content">
-        <h1 style="margin-top:0;">Blog</h1>
-        <div id="postsContainer"></div>
+        <div class="card">
+          <div id="postsContainer"></div>
+        </div>
       </section>
     </div>
   </main>
@@ -51,9 +72,10 @@
       <small>© <span id="year"></span> Andrés Ahumada Gómez</small>
     </div>
   </footer>
-  <script>document.getElementById("year").textContent = new Date().getFullYear();</script>
 
   <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+
     const topicsList = document.getElementById("topicsList");
     const yearsList = document.getElementById("yearsList");
     const postsContainer = document.getElementById("postsContainer");
@@ -66,19 +88,18 @@
         .replaceAll('"',"&quot;")
         .replaceAll("'","&#039;");
     }
+    function parseDate(iso){ return new Date(iso + "T00:00:00"); }
+    function yearOf(iso){ return parseDate(iso).getFullYear(); }
 
-    function parseDate(iso){
-      return new Date(iso + "T00:00:00");
-    }
-
-    // Publicado: January 06, 2025 (como tu captura)
+    // Publicado: January 06, 2025 (en inglés como tu ejemplo)
     function publishedEn(iso){
-      const d = parseDate(iso);
-      return d.toLocaleDateString("en-US", { year:"numeric", month:"long", day:"2-digit" });
+      return parseDate(iso).toLocaleDateString("en-US", {
+        year:"numeric", month:"long", day:"2-digit"
+      });
     }
 
-    function yearOf(iso){
-      return parseDate(iso).getFullYear();
+    function uniqueSorted(arr){
+      return [...new Set(arr)].sort((a,b)=> a.localeCompare(b, "en"));
     }
 
     function groupByYear(posts){
@@ -88,19 +109,13 @@
         if(!map.has(y)) map.set(y, []);
         map.get(y).push(p);
       }
-      // posts dentro del año, descendente por fecha
       for(const [y, arr] of map.entries()){
         arr.sort((a,b)=> b.date.localeCompare(a.date));
       }
-      // años descendentes
       return [...map.entries()].sort((a,b)=> b[0]-a[0]);
     }
 
-    function uniqueSorted(arr){
-      return [...new Set(arr)].sort((a,b)=> a.localeCompare(b, "en"));
-    }
-
-    function renderSidebarLinks(container, items, onClick){
+    function renderSidebar(container, items, onClick){
       container.innerHTML = "";
       for(const it of items){
         const a = document.createElement("a");
@@ -112,11 +127,10 @@
       }
     }
 
-    function renderPosts(groupedYears, filter){
-      // filter: {topic?: string, year?: number}
+    function renderPosts(grouped, filter){
       const blocks = [];
 
-      for(const [y, posts] of groupedYears){
+      for(const [y, posts] of grouped){
         if(filter.year && y !== filter.year) continue;
 
         const filteredPosts = filter.topic
@@ -132,7 +146,7 @@
             <article class="blog-post">
               <a class="blog-title" href="${escapeHtml(p.url)}">${escapeHtml(p.title)}</a>
               <div class="blog-meta">
-                <span class="blog-icon" aria-hidden="true">📅</span>
+                <span aria-hidden="true">📅</span>
                 <strong>Published:</strong> ${escapeHtml(publishedEn(p.date))}
               </div>
               ${p.excerpt ? `<p class="blog-excerpt">${escapeHtml(p.excerpt)}</p>` : ``}
@@ -143,15 +157,15 @@
 
       postsContainer.innerHTML = blocks.length
         ? blocks.join("")
-        : `<p style="color:var(--muted);">No hay entradas para ese filtro.</p>`;
+        : `<p style="color:var(--muted); margin:0;">No hay entradas para ese filtro.</p>`;
     }
 
     async function init(){
       try{
-        // Ruta relativa: evita 404 en GitHub Pages con subcarpeta
+        // RUTA RELATIVA = robusto en GitHub Pages
         const res = await fetch("./posts.json", { cache: "no-store" });
         if(!res.ok){
-          postsContainer.innerHTML = `<p style="color:var(--muted);">No pude cargar posts.json (HTTP ${res.status}).</p>`;
+          postsContainer.innerHTML = `<p style="color:var(--muted); margin:0;">No pude cargar posts.json (HTTP ${res.status}).</p>`;
           return;
         }
 
@@ -164,14 +178,26 @@
 
         let state = { topic: null, year: null };
 
-        renderSidebarLinks(topicsList, topics, (t)=>{
+        function highlightActive(){
+          document.querySelectorAll(".blog-link").forEach(a=>a.classList.remove("is-active"));
+          if(state.topic){
+            [...topicsList.querySelectorAll(".blog-link")]
+              .find(a=>a.textContent===state.topic)?.classList.add("is-active");
+          }
+          if(state.year){
+            [...yearsList.querySelectorAll(".blog-link")]
+              .find(a=>a.textContent===String(state.year))?.classList.add("is-active");
+          }
+        }
+
+        renderSidebar(topicsList, topics, (t)=>{
           state.topic = (state.topic === t) ? null : t;
           state.year = null;
           renderPosts(grouped, state);
           highlightActive();
         });
 
-        renderSidebarLinks(yearsList, years.map(String), (ys)=>{
+        renderSidebar(yearsList, years.map(String), (ys)=>{
           const y = Number(ys);
           state.year = (state.year === y) ? null : y;
           state.topic = null;
@@ -179,20 +205,9 @@
           highlightActive();
         });
 
-        function highlightActive(){
-          // marca link activo
-          document.querySelectorAll(".blog-link").forEach(a=>a.classList.remove("is-active"));
-          if(state.topic){
-            [...topicsList.querySelectorAll(".blog-link")].find(a=>a.textContent===state.topic)?.classList.add("is-active");
-          }
-          if(state.year){
-            [...yearsList.querySelectorAll(".blog-link")].find(a=>a.textContent===String(state.year))?.classList.add("is-active");
-          }
-        }
-
         renderPosts(grouped, state);
       } catch(e){
-        postsContainer.innerHTML = `<p style="color:var(--muted);">Error: ${escapeHtml(e)}</p>`;
+        postsContainer.innerHTML = `<p style="color:var(--muted); margin:0;">Error: ${escapeHtml(e)}</p>`;
       }
     }
 

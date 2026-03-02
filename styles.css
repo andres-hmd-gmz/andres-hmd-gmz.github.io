@@ -599,36 +599,19 @@ main .section.contact-grid .contact-item p{
 }
 
 /* =========================
-   Blog layout (sidebar + list)
+   Blog (mismo look & feel)
    ========================= */
 
 .blog-layout{
   display: grid;
   grid-template-columns: 260px 1fr;
-  gap: 28px;
+  gap: 16px;
   align-items: start;
-  margin-top: 10px;
 }
 
 .blog-sidebar{
   position: sticky;
-  top: 88px; /* ajusta si tu header es más alto */
-}
-
-.blog-box{
-  background: var(--panel);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 14px;
-  box-shadow: var(--shadow);
-  margin-bottom: 16px;
-}
-
-.blog-box-title{
-  margin: 0 0 10px 0;
-  font-size: 12px;
-  letter-spacing: 1px;
-  color: var(--muted);
+  top: 88px; /* ajusta si el header tapa */
 }
 
 .blog-links{
@@ -656,12 +639,10 @@ main .section.contact-grid .contact-item p{
   font-weight: 700;
 }
 
-.blog-content{
-  min-width: 0;
-}
+.blog-content{ min-width: 0; }
 
 .blog-year{
-  margin: 18px 0 8px;
+  margin: 0 0 10px;
   color: var(--muted);
   font-weight: 700;
   border-top: 1px solid rgba(0,0,0,.08);
@@ -673,7 +654,7 @@ main .section.contact-grid .contact-item p{
 }
 
 .blog-title{
-  font-size: 22px;
+  font-size: 20px;
   font-weight: 800;
   color: var(--accent);
   text-decoration: none;
@@ -694,16 +675,11 @@ main .section.contact-grid .contact-item p{
 .blog-excerpt{
   margin-top: 10px;
   color: var(--text);
-  max-width: 70ch;
+  max-width: 75ch;
 }
 
-/* Mobile */
+/* Móvil */
 @media (max-width: 900px){
-  .blog-layout{
-    grid-template-columns: 1fr;
-  }
-  .blog-sidebar{
-    position: static;
-    top: auto;
-  }
+  .blog-layout{ grid-template-columns: 1fr; }
+  .blog-sidebar{ position: static; top: auto; }
 }

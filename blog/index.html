@@ -4,70 +4,46 @@
 
 
 <!doctype html>
-<html lang="en">
+<html lang="es">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Math Site of Andrés</title>
-  <meta name="description" content="Web profesional de Andrés Ahumada Gómez." />
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=CMU+Serif&display=swap">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/cascadia-code/index.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/jetbrains-mono/index.css">
+  <title>Blog — Andrés Ahumada Gómez</title>
   <link rel="stylesheet" href="/styles.css" />
-  <link rel="alternate" hreflang="en" href="https://andres-ahumada-gomez.github.io/en/" />
-<link rel="alternate" hreflang="es" href="https://andres-ahumada-gomez.github.io/es/" />
-<link rel="alternate" hreflang="x-default" href="https://andres-ahumada-gomez.github.io/" />
-   <link rel="icon" type="image/png" href="/imgs/esf.png">
 </head>
 <body>
   <header class="site-header">
-  <a class="brand" href="/">
-  <img src="/imgs/andres-esf2.png" alt="Logo" class="brand-logo">
-     
-  Andrés Ahumada Gómez
-  </a>
-  <nav class="nav">
-  <a class="active" href="/blog/">Blog</a>
-  
-
-  <span class="nav-sep" aria-hidden="true">|</span>
-
-  <div class="lang">
-    <a href="/en/">Home</a>
-    <a href="/es/">Casa</a>
-  </div>
-</nav>
-</header>
+    <a class="brand" href="/es/">
+      <img src="/imgs/andres-esf2.png" alt="Logo" class="brand-logo">
+      Andrés Ahumada Gómez
+    </a>
+    <nav class="nav">
+      <a href="/es/">Inicio</a>
+      <a class="active" href="/es/blog/">Blog</a>
+    </nav>
+  </header>
 
   <main class="container">
-    <h1>Blog</h1>
-    <p class="lead">Entradas clasificadas por tema y por mes–año.</p>
-
-    <section class="grid">
-      <div class="card">
-        <h3>Filtrar por tema</h3>
-        <select id="topicSelect" style="width:100%; padding:10px; border-radius:10px; border:1px solid rgba(0,0,0,.12);">
-          <option value="">Todos los temas</option>
-        </select>
-
-        <div style="margin-top:12px;">
-          <input id="searchInput" type="search" placeholder="Buscar en títulos/resumen…"
-            style="width:100%; padding:10px; border-radius:10px; border:1px solid rgba(0,0,0,.12);" />
+    <div class="blog-layout">
+      <!-- Sidebar -->
+      <aside class="blog-sidebar">
+        <div class="blog-box">
+          <h3 class="blog-box-title">TOPICS</h3>
+          <div id="topicsList" class="blog-links"></div>
         </div>
-      </div>
 
-      <div class="card">
-        <h3>Archivo</h3>
-        <div id="archive"></div>
-      </div>
-    </section>
+        <div class="blog-box">
+          <h3 class="blog-box-title">YEAR</h3>
+          <div id="yearsList" class="blog-links"></div>
+        </div>
+      </aside>
 
-    <section class="section">
-      <div class="card">
-        <h3>Resultados</h3>
-        <div id="results"></div>
-      </div>
-    </section>
+      <!-- Content -->
+      <section class="blog-content">
+        <h1 style="margin-top:0;">Blog</h1>
+        <div id="postsContainer"></div>
+      </section>
+    </div>
   </main>
 
   <footer class="footer">
@@ -75,26 +51,12 @@
       <small>© <span id="year"></span> Andrés Ahumada Gómez</small>
     </div>
   </footer>
+  <script>document.getElementById("year").textContent = new Date().getFullYear();</script>
+
   <script>
-    document.getElementById("year").textContent = new Date().getFullYear();
-
-    const topicSelect = document.getElementById("topicSelect");
-    const searchInput = document.getElementById("searchInput");
-    const archiveEl = document.getElementById("archive");
-    const resultsEl = document.getElementById("results");
-
-function formatMonthYear(isoDate){
-  const d = new Date(isoDate + "T00:00:00");
-  return d.toLocaleDateString("en-US", {
-    year: "numeric",
-    month: "long"
-  });
-}
-
-    function formatDateEs(isoDate){
-      const d = new Date(isoDate + "T00:00:00");
-      return d.toLocaleDateString("es-ES", { year:"numeric", month:"long", day:"2-digit" });
-    }
+    const topicsList = document.getElementById("topicsList");
+    const yearsList = document.getElementById("yearsList");
+    const postsContainer = document.getElementById("postsContainer");
 
     function escapeHtml(s){
       return String(s)
@@ -105,97 +67,133 @@ function formatMonthYear(isoDate){
         .replaceAll("'","&#039;");
     }
 
-    function buildTopics(posts){
-      const topics = [...new Set(posts.map(p => p.topic).filter(Boolean))].sort((a,b)=>a.localeCompare(b,"es"));
-      for(const t of topics){
-        const opt = document.createElement("option");
-        opt.value = t;
-        opt.textContent = t;
-        topicSelect.appendChild(opt);
+    function parseDate(iso){
+      return new Date(iso + "T00:00:00");
+    }
+
+    // Publicado: January 06, 2025 (como tu captura)
+    function publishedEn(iso){
+      const d = parseDate(iso);
+      return d.toLocaleDateString("en-US", { year:"numeric", month:"long", day:"2-digit" });
+    }
+
+    function yearOf(iso){
+      return parseDate(iso).getFullYear();
+    }
+
+    function groupByYear(posts){
+      const map = new Map();
+      for(const p of posts){
+        const y = yearOf(p.date);
+        if(!map.has(y)) map.set(y, []);
+        map.get(y).push(p);
+      }
+      // posts dentro del año, descendente por fecha
+      for(const [y, arr] of map.entries()){
+        arr.sort((a,b)=> b.date.localeCompare(a.date));
+      }
+      // años descendentes
+      return [...map.entries()].sort((a,b)=> b[0]-a[0]);
+    }
+
+    function uniqueSorted(arr){
+      return [...new Set(arr)].sort((a,b)=> a.localeCompare(b, "en"));
+    }
+
+    function renderSidebarLinks(container, items, onClick){
+      container.innerHTML = "";
+      for(const it of items){
+        const a = document.createElement("a");
+        a.href = "#";
+        a.textContent = it;
+        a.className = "blog-link";
+        a.addEventListener("click", (e)=>{ e.preventDefault(); onClick(it); });
+        container.appendChild(a);
       }
     }
 
-  const groups = new Map();
+    function renderPosts(groupedYears, filter){
+      // filter: {topic?: string, year?: number}
+      const blocks = [];
 
-for(const p of posts){
-  const d = new Date(p.date + "T00:00:00");
-  const key = d.toLocaleDateString("en-US", { year: "numeric", month: "long" });
-  const sortKey = d.getFullYear() * 100 + (d.getMonth() + 1); // YYYYMM numérico
+      for(const [y, posts] of groupedYears){
+        if(filter.year && y !== filter.year) continue;
 
-  if(!groups.has(key)){
-    groups.set(key, { sortKey, items: [] });
-  }
-  groups.get(key).items.push(p);
-}
+        const filteredPosts = filter.topic
+          ? posts.filter(p => p.topic === filter.topic)
+          : posts;
 
-const sortedGroups = [...groups.entries()]
-  .sort((a,b)=> b[1].sortKey - a[1].sortKey);
+        if(filteredPosts.length === 0) continue;
 
-     archiveEl.innerHTML = sortedGroups.map(([label, group]) => {
-  const items = group.items
-    .sort((a,b)=> b.date.localeCompare(a.date))
-    .map(p => `
-      <li>
-        <a href="${escapeHtml(p.url)}">${escapeHtml(p.title)}</a>
-        <span style="color:var(--muted)"> — ${escapeHtml(p.topic || "")}</span>
-        <div style="color:var(--muted); font-size:0.95rem;">${escapeHtml(p.excerpt || "")}</div>
-      </li>
-    `).join("");
+        blocks.push(`<h2 class="blog-year">${y}</h2>`);
 
-  return `
-    <h2 style="margin:16px 0 8px;">${label}</h2>
-    <ul style="margin:0; padding-left:18px;">${items}</ul>
-  `;
-}).join("");
-    }
-
-    function renderResults(posts){
-      const topic = topicSelect.value.trim();
-      const q = searchInput.value.trim().toLowerCase();
-
-      const filtered = posts.filter(p => {
-        const okTopic = !topic || p.topic === topic;
-        const hay = `${p.title || ""} ${p.excerpt || ""}`.toLowerCase();
-        const okSearch = !q || hay.includes(q);
-        return okTopic && okSearch;
-      }).sort((a,b)=> b.date.localeCompare(a.date));
-
-      if(filtered.length === 0){
-        resultsEl.innerHTML = `<p style="color:var(--muted); margin:0;">No hay entradas que coincidan.</p>`;
-        return;
+        for(const p of filteredPosts){
+          blocks.push(`
+            <article class="blog-post">
+              <a class="blog-title" href="${escapeHtml(p.url)}">${escapeHtml(p.title)}</a>
+              <div class="blog-meta">
+                <span class="blog-icon" aria-hidden="true">📅</span>
+                <strong>Published:</strong> ${escapeHtml(publishedEn(p.date))}
+              </div>
+              ${p.excerpt ? `<p class="blog-excerpt">${escapeHtml(p.excerpt)}</p>` : ``}
+            </article>
+          `);
+        }
       }
 
-      resultsEl.innerHTML = filtered.map(p => `
-        <div style="padding:12px 0; border-bottom:1px solid rgba(0,0,0,.08);">
-          <div style="display:flex; gap:10px; flex-wrap:wrap; align-items:baseline;">
-            <a href="${escapeHtml(p.url)}" style="font-weight:700;">${escapeHtml(p.title)}</a>
-            <span style="color:var(--muted);">(${escapeHtml(formatDateEs(p.date))})</span>
-            ${p.topic ? `<span class="tags"><span>${escapeHtml(p.topic)}</span></span>` : ``}
-          </div>
-          ${p.excerpt ? `<div style="color:var(--muted); margin-top:6px;">${escapeHtml(p.excerpt)}</div>` : ``}
-        </div>
-      `).join("");
+      postsContainer.innerHTML = blocks.length
+        ? blocks.join("")
+        : `<p style="color:var(--muted);">No hay entradas para ese filtro.</p>`;
     }
 
     async function init(){
-      const res = await fetch("/blog/posts.json", { cache: "no-store" });
-      if(!res.ok){
-        resultsEl.innerHTML = `<p style="color:var(--muted);">No pude cargar posts.json</p>`;
-        return;
+      try{
+        // Ruta relativa: evita 404 en GitHub Pages con subcarpeta
+        const res = await fetch("./posts.json", { cache: "no-store" });
+        if(!res.ok){
+          postsContainer.innerHTML = `<p style="color:var(--muted);">No pude cargar posts.json (HTTP ${res.status}).</p>`;
+          return;
+        }
+
+        const posts = await res.json();
+        posts.sort((a,b)=> b.date.localeCompare(a.date));
+
+        const topics = uniqueSorted(posts.map(p=>p.topic).filter(Boolean));
+        const years = [...new Set(posts.map(p=>yearOf(p.date)))].sort((a,b)=> b-a);
+        const grouped = groupByYear(posts);
+
+        let state = { topic: null, year: null };
+
+        renderSidebarLinks(topicsList, topics, (t)=>{
+          state.topic = (state.topic === t) ? null : t;
+          state.year = null;
+          renderPosts(grouped, state);
+          highlightActive();
+        });
+
+        renderSidebarLinks(yearsList, years.map(String), (ys)=>{
+          const y = Number(ys);
+          state.year = (state.year === y) ? null : y;
+          state.topic = null;
+          renderPosts(grouped, state);
+          highlightActive();
+        });
+
+        function highlightActive(){
+          // marca link activo
+          document.querySelectorAll(".blog-link").forEach(a=>a.classList.remove("is-active"));
+          if(state.topic){
+            [...topicsList.querySelectorAll(".blog-link")].find(a=>a.textContent===state.topic)?.classList.add("is-active");
+          }
+          if(state.year){
+            [...yearsList.querySelectorAll(".blog-link")].find(a=>a.textContent===String(state.year))?.classList.add("is-active");
+          }
+        }
+
+        renderPosts(grouped, state);
+      } catch(e){
+        postsContainer.innerHTML = `<p style="color:var(--muted);">Error: ${escapeHtml(e)}</p>`;
       }
-      const posts = await res.json();
-
-      // Normaliza y valida mínimamente
-      for(const p of posts){
-        if(!p.title || !p.date || !p.url) console.warn("Post incompleto:", p);
-      }
-
-      buildTopics(posts);
-      buildArchive(posts);
-      renderResults(posts);
-
-      topicSelect.addEventListener("change", ()=>renderResults(posts));
-      searchInput.addEventListener("input", ()=>renderResults(posts));
     }
 
     init();

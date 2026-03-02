@@ -62,12 +62,13 @@
     const archiveEl = document.getElementById("archive");
     const resultsEl = document.getElementById("results");
 
-    function formatMonthYear(isoDate){
-      const d = new Date(isoDate + "T00:00:00");
-      const y = d.getFullYear();
-      const m = String(d.getMonth() + 1).padStart(2, "0");
-      return `${y}-${m}`; // clave de agrupación
-    }
+function formatMonthYear(isoDate){
+  const d = new Date(isoDate + "T00:00:00");
+  return d.toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long"
+  });
+}
 
     function formatDateEs(isoDate){
       const d = new Date(isoDate + "T00:00:00");
@@ -93,33 +94,38 @@
       }
     }
 
-    function buildArchive(posts){
-      // Agrupa por YYYY-MM
-      const groups = new Map();
-      for(const p of posts){
-        const key = formatMonthYear(p.date);
-        if(!groups.has(key)) groups.set(key, []);
-        groups.get(key).push(p);
-      }
-      // Orden descendente por mes
-      const keys = [...groups.keys()].sort().reverse();
+  const groups = new Map();
 
-      archiveEl.innerHTML = keys.map(key => {
-        const items = groups.get(key)
-          .sort((a,b)=> b.date.localeCompare(a.date))
-          .map(p => `
-            <li>
-              <a href="${escapeHtml(p.url)}">${escapeHtml(p.title)}</a>
-              <span style="color:var(--muted)"> — ${escapeHtml(p.topic || "")}</span>
-              <div style="color:var(--muted); font-size:0.95rem;">${escapeHtml(p.excerpt || "")}</div>
-            </li>
-          `).join("");
+for(const p of posts){
+  const d = new Date(p.date + "T00:00:00");
+  const key = d.toLocaleDateString("en-US", { year: "numeric", month: "long" });
+  const sortKey = d.getFullYear() * 100 + (d.getMonth() + 1); // YYYYMM numérico
 
-        return `
-          <h2 style="margin:16px 0 8px;">${escapeHtml(key)}</h2>
-          <ul style="margin:0; padding-left:18px;">${items}</ul>
-        `;
-      }).join("");
+  if(!groups.has(key)){
+    groups.set(key, { sortKey, items: [] });
+  }
+  groups.get(key).items.push(p);
+}
+
+const sortedGroups = [...groups.entries()]
+  .sort((a,b)=> b[1].sortKey - a[1].sortKey);
+
+     archiveEl.innerHTML = sortedGroups.map(([label, group]) => {
+  const items = group.items
+    .sort((a,b)=> b.date.localeCompare(a.date))
+    .map(p => `
+      <li>
+        <a href="${escapeHtml(p.url)}">${escapeHtml(p.title)}</a>
+        <span style="color:var(--muted)"> — ${escapeHtml(p.topic || "")}</span>
+        <div style="color:var(--muted); font-size:0.95rem;">${escapeHtml(p.excerpt || "")}</div>
+      </li>
+    `).join("");
+
+  return `
+    <h2 style="margin:16px 0 8px;">${label}</h2>
+    <ul style="margin:0; padding-left:18px;">${items}</ul>
+  `;
+}).join("");
     }
 
     function renderResults(posts){

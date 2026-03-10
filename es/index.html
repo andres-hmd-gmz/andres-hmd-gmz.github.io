@@ -261,6 +261,9 @@
       video.play().catch(() => {});
     });
 
+    // Fuerza carga en Safari
+    video.load();
+
     const skipBtn = document.createElement('button');
     skipBtn.id = 'skip-btn';
     document.body.appendChild(skipBtn);

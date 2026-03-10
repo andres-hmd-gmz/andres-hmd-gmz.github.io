@@ -240,28 +240,34 @@
     setTimeout(() => video.style.display = 'none', 1000);
   }
 
-  video.play().catch(() => {
-    const btn = document.createElement('button');
-    btn.id = 'intro-btn';
-    btn.textContent = 'Entrar';
-    document.body.appendChild(btn);
+  // Si ya vio el vídeo, lo ocultamos directamente sin reproducir
+  if (sessionStorage.getItem('introVisto')) {
+    video.style.display = 'none';
+  } else {
+    video.play().catch(() => {
+      const btn = document.createElement('button');
+      btn.id = 'intro-btn';
+      btn.textContent = 'Entrar';
+      document.body.appendChild(btn);
 
-    btn.addEventListener('click', () => {
-      btn.style.opacity = '0';
-      setTimeout(() => {
-        btn.remove();
-        video.play();
-      }, 150);
+      btn.addEventListener('click', () => {
+        btn.style.opacity = '0';
+        setTimeout(() => {
+          btn.remove();
+          video.play();
+        }, 150);
+      });
     });
-  });
 
-  video.addEventListener('timeupdate', () => {
-    if (video.duration && video.currentTime >= video.duration - 3) {
-      fadeOutVideo();
-    }
-  });
+    video.addEventListener('timeupdate', () => {
+      if (video.duration && video.currentTime >= video.duration - 3) {
+        sessionStorage.setItem('introVisto', 'true'); // 👈 guarda la marca
+        fadeOutVideo();
+      }
+    });
 
-  video.addEventListener('ended', fadeOutVideo);
+    video.addEventListener('ended', fadeOutVideo);
+  }
 </script>
 </body>
 </html>

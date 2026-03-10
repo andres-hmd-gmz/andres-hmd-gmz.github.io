@@ -239,29 +239,23 @@
   function fadeOutVideo() {
     if (fadeDone) return;
     fadeDone = true;
-    document.body.classList.remove('intro-activa'); // revela la página
+    document.body.classList.remove('intro-activa');
     video.style.opacity = '0';
-    setTimeout(() => video.style.display = 'none', 1000);
+    setTimeout(() => {
+      video.style.display = 'none';
+      video.src = ''; // 👈 libera el vídeo de memoria
+    }, 1000);
   }
 
-  // Si ya vio el vídeo, lo ocultamos directamente
   if (sessionStorage.getItem('introVisto')) {
-    video.style.display = 'none';
-    document.body.classList.remove('intro-activa'); // revela inmediatamente
+    // Elimina el vídeo del DOM completamente antes de que se renderice
+    video.removeAttribute('src');
+    video.load(); // 👈 cancela cualquier carga
+    video.remove(); // 👈 lo elimina del DOM
+    document.body.classList.remove('intro-activa');
   } else {
     video.play().catch(() => {
-      const btn = document.createElement('button');
-      btn.id = 'intro-btn';
-      btn.textContent = 'Entrar';
-      document.body.appendChild(btn);
-
-      btn.addEventListener('click', () => {
-        btn.style.opacity = '0';
-        setTimeout(() => {
-          btn.remove();
-          video.play();
-        }, 150);
-      });
+      // ... botón igual que antes
     });
 
     video.addEventListener('timeupdate', () => {

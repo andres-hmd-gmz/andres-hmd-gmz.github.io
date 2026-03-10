@@ -20,38 +20,29 @@
 <style>
   #intro-video {
     position: fixed;
-    top: 50%; left:0;
+    top: 50%; left: 0;
     transform: translateY(-50%);
-    width: 100%; height: auto;
+    width: 100%;
+    height: auto;
     object-fit: initial;
     z-index: 9999;
     transition: opacity 3s ease;
+    border: none;
+    outline: none;
+    display: block;
+    margin: 0;
   }
 
   #skip-btn {
     position: fixed;
     z-index: 10000;
-    bottom: 30px;
-    right: 30px;
-
-    padding: 10px 20px;
-    font-size: 15px;
-    font-family: "JetBrains Mono", monospace;
-    letter-spacing: 1px;
-
-    color: #6b7280;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
     background-color: transparent;
-    border: 1px solid rgba(255, 255, 255, 0.6);
-    border-radius: 8px;
+    border: none;
     cursor: pointer;
-
-    transition: opacity 0.15s ease, background-color 0.2s ease;
   }
 
-  #skip-btn:hover {
-    background-color: rgba(255, 255, 255, 0.15);
-  }
-   
   body.intro-activa {
     overflow: hidden;
     margin: 0;
@@ -266,15 +257,12 @@
     video.remove();
     document.body.classList.remove('intro-activa');
   } else {
-    // Espera a que el vídeo esté listo antes de reproducir
     video.addEventListener('canplay', () => {
       video.play().catch(() => {});
     });
 
-    // Botón saltar
     const skipBtn = document.createElement('button');
     skipBtn.id = 'skip-btn';
-    skipBtn.textContent = 'Saltar';
     document.body.appendChild(skipBtn);
 
     skipBtn.addEventListener('click', () => {

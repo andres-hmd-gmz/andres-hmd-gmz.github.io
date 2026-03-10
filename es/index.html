@@ -14,11 +14,52 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/jetbrains-mono/index.css">
   <link rel="stylesheet" href="/styles.css" />
   <link rel="alternate" hreflang="en" href="https://andres-ahumada-gomez.github.io/en/" />
-<link rel="alternate" hreflang="es" href="https://andres-ahumada-gomez.github.io/es/" />
-<link rel="alternate" hreflang="x-default" href="https://andres-ahumada-gomez.github.io/" />
-   <link rel="icon" type="image/png" href="/imgs/esf.png">
+  <link rel="alternate" hreflang="es" href="https://andres-ahumada-gomez.github.io/es/" />
+  <link rel="alternate" hreflang="x-default" href="https://andres-ahumada-gomez.github.io/" />
+  <link rel="icon" type="image/png" href="/imgs/esf.png">
+
+  <style>
+     #intro-video {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        z-index: 9999;
+        transition: opacity 1s ease;
+     }
+     #intro-btn {
+        position: fixed;
+        z-index: 10000;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%,-50%);
+
+        padding: 14px 30px;
+        font-size: 18px;
+        font-family: "JetBrains Mono", monospace;
+        letter-spacing: 1px;
+
+        color: white;
+        background: #9C1F14;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+
+        transition: opacity 0.15s ease;
+     }
+     #intro-btn:hover {
+        background-color: #5a5d64;
+     }
+  </style>
 </head>
 <body>
+   <video id="intro-video" autoplay muted playsinline>
+      <source src="/vids/prueba.mp4" type="video/mp4">
+   </video>
+
+   
   <header class="site-header">
   <a class="brand" href="/">
   <img src="/imgs/andres-esf2.png" alt="Logo" class="brand-logo">
@@ -190,5 +231,22 @@
   <script>
     document.getElementById("year").textContent = new Date();
   </script>
+   <script>
+    const video = document.getElementById('intro-video');
+
+    // Intenta reproducir automáticamente
+    video.play().catch(() => {
+      // Solo si el autoplay falla, crea el botón
+      const btn = document.createElement('button');
+      btn.id = 'intro-btn';
+      btn.textContent = 'Entrar';
+      document.body.appendChild(btn);
+
+      btn.addEventListener('click', () => {
+        btn.style.opacity = '0';           // fade out rápido del botón
+        setTimeout(() => {
+          btn.remove()
+      
+   </script>
 </body>
 </html>

@@ -229,7 +229,7 @@
   <script>
     document.getElementById("year").textContent = new Date();
   </script>
-   <script>
+<script>
   const video = document.getElementById('intro-video');
   let fadeDone = false;
 
@@ -255,15 +255,9 @@
     });
   });
 
-  // Dispara el fade cuando queda menos de 0.3s
-  video.addEventListener('timeupdate', () => {
-    if (video.duration && video.currentTime >= video.duration - 0.3) {
-      fadeOutVideo();
-    }
-  });
-
-  // Por si acaso, también escucha ended
   video.addEventListener('ended', fadeOutVideo);
+  video.addEventListener('timeupdate', fadeOutVideo);  // 👈 se dispara en cada frame
+  video.addEventListener('pause', fadeOutVideo);       // 👈 cuando se para al terminar
 </script>
 </body>
 </html>

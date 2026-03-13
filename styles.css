@@ -698,4 +698,5 @@ main .section.contact-grid .contact-item p{
   display: block;
   object-fit: cover;
   background: transparent;
+   transform: scale(1.02);
 }

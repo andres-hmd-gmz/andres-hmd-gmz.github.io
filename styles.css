@@ -700,3 +700,33 @@ main .section.contact-grid .contact-item p{
   background: transparent;
    transform: scale(1.02);
 }
+
+/* CONTENEDOR DE LA ANIMACIÓN */
+.sphere-section {
+  position: relative;
+  width: 100%;
+  height: 500px; /* ajusta a tu diseño */
+  background: #ffffff;
+  overflow: hidden;
+  cursor: crosshair;
+}
+
+/* CANVAS */
+#sphereCanvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  image-rendering: pixelated;
+}
+
+/* TEXTO HUD */
+.sphere-section .hud {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  color: #5a5d64;
+  font-family: monospace;
+  font-size: 18px;
+  text-shadow: 0 0 4px #665500;
+  pointer-events: none;
+}

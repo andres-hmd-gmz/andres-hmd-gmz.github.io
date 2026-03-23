@@ -164,30 +164,47 @@
   });
 })();
    </script>
-      <script>
-  (function () {
-    const root = document.getElementById('animationsComponent');
-    if (!root) return;
 
-    const frame = root.querySelector('#animationsFrame');
-    const source = frame.querySelector('source');
-    const items = root.querySelectorAll('.doc-item');
+   <script>
+ (function () {
+  const root = document.getElementById('animationsComponent');
+  if (!root) return;
 
-    items.forEach(button => {
-      button.addEventListener('click', function () {
-        const src = this.dataset.src;
-        if (!src) return;
+  const video = root.querySelector('#animationsFrame');
+  const source = video.querySelector('source');
+  const canvas = root.querySelector('#sphereCanvas');
+  const items = root.querySelectorAll('.doc-item');
 
+  items.forEach(button => {
+    button.addEventListener('click', function () {
+      const type = this.dataset.type;
+      const src = this.dataset.src;
+
+      // 🔁 RESET
+      video.style.display = "none";
+      canvas.style.display = "none";
+
+      // 🎥 VIDEO
+      if (src) {
         source.src = src;
-        frame.load();
+        video.style.display = "block";
+        video.load();
+      }
 
-        items.forEach(btn => btn.classList.remove('is-active'));
-        this.classList.add('is-active');
-      });
+      // 🟡 ESFERA
+      if (type === "sphere") {
+        canvas.style.display = "block";
+        initSphere(); // lanzar animación
+      }
+
+      items.forEach(btn => btn.classList.remove('is-active'));
+      this.classList.add('is-active');
     });
-  })();
+  });
+})();
 </script>
-      <script>
+
+   <script>
 function initSphere() {
   const canvas = document.getElementById("sphereCanvas");
   if (!canvas || canvas._initialized) return;

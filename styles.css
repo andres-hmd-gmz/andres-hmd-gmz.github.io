@@ -684,21 +684,29 @@ main .section.contact-grid .contact-item p{
   .blog-sidebar{ position: static; top: auto; }
 }
 
-.viewer-frame--video {
+#animationsComponent .viewer-frame--video {
   width: 100%;
   aspect-ratio: 16 / 9;
-  background: transparent;
+  min-height: 220px;
+  background: #ffffff;
   border-radius: 12px;
   overflow: hidden;
 }
 
-.viewer-frame--video video {
+#animationsComponent video {
   width: 100%;
   height: 100%;
   display: block;
-  object-fit: cover;
-  background: transparent;
-   transform: scale(1.02);
+  object-fit: contain;
+  background: #ffffff;
+  transform: none;
+}
+
+#animationsComponent canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+  background: #ffffff;
 }
 
 /* CONTENEDOR DE LA ANIMACIÓN */

@@ -730,3 +730,38 @@ main .section.contact-grid .contact-item p{
   text-shadow: 0 0 4px #665500;
   pointer-events: none;
 }
+
+@media (max-width: 900px) {
+  .docs-pdf-component .docs-viewer {
+    display: none;
+  }
+
+  #animationsComponent .docs-viewer {
+    display: block;
+    width: 100%;
+  }
+
+  .docs-component {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+  }
+
+  .docs-list {
+    width: 100%;
+    max-width: 420px;
+  }
+}
+
+#animationsComponent .viewer-frame--video {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  min-height: 220px;
+}
+
+#animationsComponent video,
+#animationsComponent canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+}

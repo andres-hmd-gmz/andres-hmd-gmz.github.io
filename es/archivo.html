@@ -189,9 +189,10 @@
 
       // 🟡 ESFERA
       if (type === "sphere") {
-        canvas.style.display = "block";
-        initSphere(); // lanzar animación
-      }
+  canvas.style.display = "block";
+  initSphere();
+  window.dispatchEvent(new Event("resize"));
+}
 
       items.forEach(btn => btn.classList.remove('is-active'));
       this.classList.add('is-active');
@@ -237,6 +238,13 @@ function initSphere() {
     mouse.normX = (e.clientX / window.innerWidth) * 2 - 1;
     mouse.normY = (e.clientY / window.innerHeight) * 2 - 1;
   });
+   
+   window.addEventListener("touchmove", (e) => {
+  if (!e.touches || !e.touches.length) return;
+  const t = e.touches[0];
+  mouse.normX = (t.clientX / window.innerWidth) * 2 - 1;
+  mouse.normY = (t.clientY / window.innerHeight) * 2 - 1;
+}, { passive: true });
 
   function createSpherePoints() {
     for (let i = 0; i < totalPoints; i++) {

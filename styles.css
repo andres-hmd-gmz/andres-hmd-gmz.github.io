@@ -684,6 +684,7 @@ main .section.contact-grid .contact-item p{
   .blog-sidebar{ position: static; top: auto; }
 }
 
+
 #animationsComponent .viewer-frame--video {
   width: 100%;
   aspect-ratio: 16 / 9;
@@ -699,7 +700,7 @@ main .section.contact-grid .contact-item p{
   display: block;
   object-fit: contain;
   background: #ffffff;
-  transform: none;
+  transform: scale(1.02);
 }
 
 #animationsComponent canvas {
@@ -773,3 +774,4 @@ main .section.contact-grid .contact-item p{
   height: 100%;
   display: block;
 }
+
